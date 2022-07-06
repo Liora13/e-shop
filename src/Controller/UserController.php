@@ -25,18 +25,20 @@ class UserController extends AbstractController
      */
     public function register(Request $request, EntityManagerInterface $entityManger, UserPasswordHasherInterface $passwordHasher): Response
     {   
-        # on cree une nouvelle...
+
+        # On crée une nouvelle instance de notre class/entité User.
+      
         $user = new User();
 
         $form = $this->createForm(UserFormType::class, $user)
             ->handleRequest($request);
 
             if($form->isSubmitted() && $form->isValid()) {
-                // Nous settons les propriétés qui ne sont pas dans le form et donc auto-hydratées.
-                // les propriétés createdAt et updatedAt attendent un objet de type DateTime().
+                # Nous settons les propriétés qui ne sont pas dans le form et donc auto-hydratées.
+                # Les propriétés createdAt et updatedAt attendent un objet de type DateTime().
                 $user->setCreatedAt(new DateTime());
                 $user->setUpdatedAt(new DateTime());
-                // Pour assurer un rôle utilisateur à tous les utilisateurs, on set le role égalment.
+                # Pour assurer un rôle utilisateur à tous les utilisateurs, on set le role également.
                 $user->setRoles(['ROLE_USER']);
 
                 # on récupère la valeur de l'input 'password' dans le formulaire
@@ -49,15 +51,19 @@ class UserController extends AbstractController
                         $user, $plainPassword
                  )
                 );
-                # Notre user est 
+                # Notre User est correctement setter, on peut envoyer en BDD.
                 $entityManger->persist($user);
                 $entityManger->flush();
-                # On peut enfin return et rediriger l'utilisateur la où on le souhaite.
-                return $this->redirectToRoute('default_home');
 
+                # Grâce à la méthode addFlash(), vous pouvez stocker des messages dansla session destinés à être affichés en front.
+                $this->addFlash('success' , 'Vous êtes inscrit avec succès !');
 
-            }
-            # On rend la vue qui contient le formulaire d'inscription
+               # On peut enfin return et rediriger l'utilisateur là où on le souhaite.
+                return $this->redirectToRoute('app_login');
+
+            }# end if
+
+            # On rend la vue qui contient le formulaire d'inscription.
             return $this->render("user/register.html.twig", [
                 'form_register' => $form->createView()
             ]);
