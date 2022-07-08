@@ -8,7 +8,7 @@
 /var/
 /vendor/
 ###< symfony/framework-bundle ###
-
+/.vscode/*
 ###> phpunit/phpunit ###
 /phpunit.xml
 .phpunit.result.cache
@@ -26,4 +26,3 @@ npm-debug.log
 yarn-error.log
 ###< symfony/webpack-encore-bundle ###
 
-/.vscode/*
