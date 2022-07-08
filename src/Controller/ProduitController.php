@@ -146,7 +146,9 @@ class ProduitController extends AbstractController
 
     /////////////////////////////////////////// METHODE PRIVÉE //////////////////////////////////////
 
-
+     /**
+     * @return RedirectResponse|void
+     */
     private function handleFile(Produit $produit, UploadedFile $photo, SluggerInterface $slugger)
     {
         # 1 Déconstruire le nom du fichier
