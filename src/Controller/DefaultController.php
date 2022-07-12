@@ -13,7 +13,14 @@ class DefaultController extends AbstractController
      * 
      * @Route("/", name="default_home", methods={"GET"})
      */
+<<<<<<< Updated upstream
    public function home(){
     return $this->render('default/home.html.twig');
    }
+=======
+    public function home(): Response
+    {
+        return $this->render('default/home.html.twig');
+    }
+>>>>>>> Stashed changes
 }
